@@ -59,6 +59,9 @@ const userRoutes = require('./routes/user.cjs');
 app.use('/api/todo', todoRoutes);
 app.use('/api/user', userRoutes);
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
 app.all('*', (req, res)=>{
     throw new AppError('不正なリクエストです', 400)
 });

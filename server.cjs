@@ -15,7 +15,9 @@ const AppError = require('./utils/AppError.cjs')
 const app = express();
 const URL = process.env.MONGO_URI || process.env.MONGO_LOCAL_URI;
 const secret = process.env.SECRET || 'mysecret';
-mongoose.connect(URL)
+mongoose.connect(URL, {
+    tls: true,
+  })
 .then(()=>console.log('mongoDB接続中'))
 .catch((e)=>console.log('エラー発生', e));
 const store = MongoStore.create({
@@ -69,8 +71,8 @@ app.use((err, req, res, next) => {
     res.status(status).send({ message, status , page:'error'});
 });
 
-app.listen(3000, (req, res) => {
-    console.log('3000で待ち受け中')
+app.listen(process.env.PORT || 3000, (req, res) => {
+    console.log(`${process.env.PORT || 3000}で待ち受け中`)
 })
 
 
